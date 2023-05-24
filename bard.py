@@ -62,7 +62,7 @@ def main():
     st.title("Pregúntame")
     st.write("Ingrese sus Preguntas")
 
-    prompt_text = st.text_input("Pregunta")
+    prompt_text = st.text_area("Pregunta")
     if st.button("Preguntar"):
         # Si la pregunta está vacía, mostrar mensaje de error
         if len(prompt_text.strip()) == 0:
