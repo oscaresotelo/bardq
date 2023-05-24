@@ -42,6 +42,11 @@ def translate_to_spanish(text):
     translation = translator.translate(text)
     return translation
 
+def translate_to_english(text):
+    translator = Translator(to_lang="en", from_lang="es")
+    translation = translator.translate(text)
+    return translation
+
 def prompt_bard(prompt):
     response = chatbot.ask(prompt)
     return response['content']
@@ -64,6 +69,7 @@ def main():
             st.error("Por favor ingrese una pregunta")
         else:
             # Preguntar a Bard
+            prompt_text = translate_to_english(prompt_text)
             response = prompt_bard(prompt_text)
             segments = split_into_segments(response, 400)
             translated_segments = [translate_to_spanish(segment) for segment in segments]
