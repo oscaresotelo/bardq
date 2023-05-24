@@ -41,7 +41,6 @@ networkx==3.1
 nltk==3.8.1
 numba==0.57.0
 numpy==1.24.3
-openai-whisper==20230314
 packaging==23.1
 pandas==2.0.1
 Pillow==9.5.0
@@ -72,7 +71,6 @@ textblob==0.17.1
 tiktoken==0.3.1
 toml==0.10.2
 toolz==0.12.0
-torch==2.0.1
 tornado==6.3.2
 tqdm==4.65.0
 translate==3.6.1
