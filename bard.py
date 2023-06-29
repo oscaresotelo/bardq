@@ -188,6 +188,7 @@ def main():
                 st.warning("Vacio, Pregunte Nuevamente.")
             else:
                 response = prompt_bard(prompt_text)
+                st.write(response)
                 st.session_state.codigo = (extract_python_code(prompt_bard(prompt_text)))
                 # exec(st.session_state.codigo, globals())
                 # st.text_area(response)
