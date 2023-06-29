@@ -172,8 +172,8 @@ def extract_python_code(text):
         return match.group(1)
     else:
         return ""
-pregunta = """ necesito que actues como un desarrollador experto en streamlit, debes usar librerias actualizadas, IMPORTANTE
-DEBES CONTROLAR LA SINTAXIS DEL CODIGO GENERADO, el pedido es el siguiente:   """
+pregunta = """ necesito que actues como un desarrollador experto en streamlit, IMPORTANTE DEBES USAR LIBRERIAS ACTUALIZADAS,
+ IMPORTANTE DEBES CONTROLAR LA SINTAXIS DEL CODIGO GENERADO ANTES DE PRESENTARLO SI ESTA BIEN RECIEN PRESENTAR, el pedido es el siguiente:   """
 final = """ generar el codigo en uns solo archivo, y controlar la sintaxis antes de generarlo,el formulario debe estar en español"""
 
 def main():
