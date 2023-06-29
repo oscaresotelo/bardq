@@ -6,7 +6,7 @@ import warnings
 import sys
 
 # Paste your Bard Token (check README.md for where to find yours) 
-token = "Wghlci3JMlUaLO4_VZgMKjCDDhUSMRvL4049frEMZZaj3PK1cJ6iMDTJbZoeClmdcGaRYg."
+token = "XQhlcrMY8LmPIMgZerlkEworuoOUVxaQYoRksshTR9zaFvt2VDYP1CCf92nPhr60JKKgJg."
 # Initialize Google Bard API
 chatbot = Chatbot(token)
 
