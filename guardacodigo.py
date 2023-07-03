@@ -1,4 +1,6 @@
 import streamlit as st
+import sqlite3
+
 from Bard import Chatbot
 from textblob import TextBlob
 import warnings
@@ -8,6 +10,32 @@ import os
 import requests
 import re
 from st_pages import Page, show_pages, add_page_title
+# Crear la conexión a la base de datos
+conn = sqlite3.connect('codigopython.db')
+c = conn.cursor()
+
+# Crear la tabla si no existe
+c.execute('''CREATE TABLE IF NOT EXISTS codigo
+             (nombre TEXT, scriptcodigo TEXT)''')
+
+# Clase personalizada para manejar el estado de la sesión
+class SessionState:
+    def __init__(self):
+        self.codigo = ""
+
+# Obtener el estado de la sesión o crear uno nuevo si no existe
+def get_session_state():
+    if 'session_state' not in st.session_state:
+        st.session_state.session_state = SessionState()
+    return st.session_state.session_state
+
+# Función para guardar el código en la base de datos
+def guardar_codigo(nombre, codigo):
+    c.execute("INSERT INTO codigo (nombre, scriptcodigo) VALUES (?, ?)", (nombre, codigo))
+    conn.commit()
+
+
+# Configuración de Streamlit
 st.markdown(
     """
     <style>
@@ -133,9 +161,9 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# Configuración de la API de Bard
 os.environ['_BARD_API_KEY'] = "XQhlcrMY8LmPIMgZerlkEworuoOUVxaQYoRksshTR9zaFvt2VDYP1CCf92nPhr60JKKgJg."
-
-
 session = requests.Session()
 session.headers = {
             "Host": "bard.google.com",
@@ -147,21 +175,24 @@ session.headers = {
         }
 session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
 bard = Bard(timeout=30, session=session)
+
+# Función para traducir texto al inglés
 def translate_to_english(text):
     blob = TextBlob(text)
-    return str(blob.translate(from_lang= "es",to='en'))
+    return str(blob.translate(from_lang="es", to='en'))
 
+# Función para traducir texto al español
 def translate_to_spanish(text):
     blob = TextBlob(text)
-    return str(blob.translate(from_lang="en",to='es'))
+    return str(blob.translate(from_lang="en", to='es'))
 
+# Función para obtener la respuesta de Bard
 def prompt_bard(prompt):
     prompt_english = translate_to_english(prompt)
     response = bard.get_answer(prompt_english)['content']
-    
-    # response_spanish = translate_to_spanish(response)
-    # return response_spanish
     return response
+
+# Función para extraer el código Python de un texto
 def extract_python_code(text):
     if "```python" in text:
         pattern = r"```python(.*?)```"
@@ -173,32 +204,43 @@ def extract_python_code(text):
         return match.group(1)
     else:
         return ""
-pregunta = """ necesito que actues como un desarrollador experto en streamlit, IMPORTANTE DEBES USAR LIBRERIAS ACTUALIZADAS,
- IMPORTANTE DEBES CONTROLAR LA SINTAXIS DEL CODIGO GENERADO ANTES DE PRESENTARLO SI ESTA BIEN RECIEN PRESENTAR, el pedido es el siguiente:   """
-final = """ generar el codigo en uns solo archivo, y controlar la sintaxis antes de generarlo,el formulario debe estar en español"""
-
-
-def main():
-    show_pages([
-        Page("bard.py", "Inicio"),
+show_pages([
+        Page("guardacodigo.py", "Inicio", "🏠"),
         Page("ejectuarcodigo.py", "Soluciones Creadas", ":notebook:"),
     ])
-    st.title("Generador de Soluciones")
-    if "codigo" not in st.session_state:
-        st.session_state.codigo = ""
+# Interfaz principal de Streamlit
+def main():
+    st.title("Generador de Soluciones Administrativas")
+    st.sidebar.title("Guardar Aplicacion")
+    # Obtener el estado de la sesión
+    session_state = get_session_state()
+    
+    # Campo de entrada de texto para el nombre
+    nombre = st.sidebar.text_input("Nombre de la Aplicacion:")
+    
+    # Botón para guardar el código
+    if st.sidebar.button("Guardar Aplicacion"):
+        with st.spinner('Guardando Código en la Base de Datos...'):
+            if len(session_state.codigo.strip()) == 0:
+                st.warning("El código está vacío. No se guardará nada.")
+            elif len(nombre.strip()) == 0:
+                st.warning("Por favor, ingrese un nombre para el código.")
+            else:
+                guardar_codigo(nombre, session_state.codigo)
+                st.success("Código guardado exitosamente en la base de datos.")
+    
     prompt_text = st.text_area("Escribir Solicitud:")
-    prompt_text = pregunta + prompt_text + final
-    if st.button("Preguntar"):
-        with st.spinner('Procesando Solicitud, Tardara Unos Segundos...'):
+    prompt_text = "necesito que actúes como un desarrollador experto en Streamlit, IMPORTANTE DEBES USAR LIBRERÍAS ACTUALIZADAS. IMPORTANTE DEBES CONTROLAR LA SINTAXIS DEL CÓDIGO GENERADO ANTES DE PRESENTARLO SI ESTÁ BIEN RECIÉN PRESENTAR. " + prompt_text + " Generar el código en un solo archivo y controlar la sintaxis antes de generarlo. El formulario debe estar en español."
+    
+    if st.button("Generar"):
+        with st.spinner('Procesando Solicitud, Tardará Unos Segundos...'):
             if len(prompt_text.strip()) == 0:
-                st.warning("Vacio, Pregunte Nuevamente.")
+                st.warning("El campo de solicitud está vacío. Por favor, pregunte nuevamente.")
             else:
                 response = prompt_bard(prompt_text)
-                # st.write(response)
-                st.session_state.codigo = (extract_python_code(prompt_bard(prompt_text)))
-                # exec(st.session_state.codigo, globals())
-                # st.text_area(response)
-    exec(st.session_state.codigo, globals())
+                session_state.codigo = extract_python_code(response)
+    
+    exec(session_state.codigo, globals())
+
 if __name__ == "__main__":
     main()
-
