@@ -122,10 +122,10 @@ def main():
             IMPORTANTE EL MANEJO DE DATOS SE HARA CON la biblioteca pandas
             IMPORTANTE PARA TRABAJAR CON ARCHIVOS EXCEL USARAS la biblioteca openpyxl,
 
-            IMPORTANTE VERIFICAR QUE BIBLIOTECAS  NECESARIAS E IMPORTAR LAS BIBLIOTECAS NECESARIAS PARA QUE EL CODIGO SEA UTIL,
+            IMPORTANTE, VERIFICAR QUE BIBLIOTECAS  NECESARIAS E IMPORTAR LAS BIBLIOTECAS NECESARIAS PARA QUE EL CODIGO SEA UTIL,
             
             usar loc para agregar nuevo registro en el caso que se use pandas,
-            para usar crear formulario tener en cuenta la siguiente explicacion:
+            IMPORTANTE para usar crear formulario tener en cuenta la siguiente explicacion:
 
             "Create a form that batches elements together with a "Submit" button.
 
@@ -142,7 +142,7 @@ def main():
             IMPORTANTE LOS DATOS que se carguen , GUARDARLOS EN DICCIONARIOS USANDO session_state
             IMPORTANTE RECUERDA LO SIGUIENTE TAMBIEN "Para guardar un DataFrame de pandas en un archivo de Excel, puedes usar el método to_excel() de pandas."
             IMPORTANTE: IMPORTAR LAS LIBRERIAS NECESARIAS PARA QUE EL CODIGO SE UTIL, CONTROLAR ANTES DE GENERAR EL CODIGO
-            escribir codigo de la siguiente pregunta:
+            escribir codigo de la siguiente pregunta, las etiquetas deben estar en español:
 
            
             """
