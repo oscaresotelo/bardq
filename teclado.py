@@ -14,7 +14,6 @@ def prompt_bard(prompt):
     return response['content']
 
 
-
 def main():
    
     while True:

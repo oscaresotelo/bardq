@@ -36,131 +36,14 @@ def guardar_codigo(nombre, codigo):
 
 
 # Configuración de Streamlit
-st.markdown(
-    """
-    <style>
-        div[data-testid="stToolbar"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stDecoration"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stStatusWidget"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                #MainMenu {
-                visibility: hidden;
-                height: 0%;
-                }
-                header {
-                visibility: hidden;
-                height: 0%;
-                }
-                footer {
-                visibility: hidden;
-                height: 0%;
-                }
-        /* Estilos generales */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f1f1f1;
-            margin: 0;
-            padding: 0;
-        }
-        button.step-up {display: none;}
-        button.step-down {display: none;}
-        div[data-baseweb] {border-radius: 4px;}
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        /* Estilos del formulario */
-        form {
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        .form-submit-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .form-submit-button:hover {
-            background-color: #0056b3;
-        }
-        
-        .success-message {
-            margin-top: 20px;
-            padding: 10px;
-            color: #155724;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 4px;
-        }
-        
-        .error-message {
-            margin-top: 20px;
-            padding: 10px;
-            color: #721c24;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 4px;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # Configuración de la API de Bard
 os.environ['_BARD_API_KEY'] = "XQhlcrMY8LmPIMgZerlkEworuoOUVxaQYoRksshTR9zaFvt2VDYP1CCf92nPhr60JKKgJg."
@@ -189,8 +72,8 @@ def translate_to_spanish(text):
 # Función para obtener la respuesta de Bard
 def prompt_bard(prompt):
     prompt_english = translate_to_english(prompt)
-    response = bard.get_answer(prompt_english)['content']
-    return response
+    response = bard.get_answer(prompt)['content']
+    st.write(response)
 
 # Función para extraer el código Python de un texto
 def extract_python_code(text):
@@ -230,16 +113,47 @@ def main():
                 st.success("Código guardado exitosamente en la base de datos.")
     
     prompt_text = st.text_area("Escribir Solicitud:")
-    prompt_text = "necesito que actúes como un desarrollador experto en Streamlit, IMPORTANTE DEBES USAR LIBRERÍAS ACTUALIZADAS. IMPORTANTE DEBES CONTROLAR LA SINTAXIS DEL CÓDIGO GENERADO ANTES DE PRESENTARLO SI ESTÁ BIEN RECIÉN PRESENTAR. " + prompt_text + " Generar el código en un solo archivo y controlar la sintaxis antes de generarlo. El formulario debe estar en español."
-    
+    # prompt_text = "necesito que actúes como un desarrollador experto en Streamlit, IMPORTANTE DEBES USAR LIBRERÍAS ACTUALIZADAS,. IMPORTANTE DEBES CONTROLAR LA SINTAXIS DEL CÓDIGO GENERADO ANTES DE PRESENTARLO SI ESTÁ BIEN RECIÉN PRESENTAR. IMPORTANTE DEBES USAR LIBRERIAS ACTUALIZADAS, USAR PANDAS para TRABAJAR CON DATOS , controlar que no genere el siguiente error ' If using all scalar values, you must pass an index', USAR dataframe  PARA MOSTRAR DATOS, usar indices cuando sea necesario, el pedido es el siguiente:  " + prompt_text + " Generar el código en un solo archivo y controlar la sintaxis antes de generarlo. El formulario debe estar en español."
+    consulta = """
+            import streamlit as st,
+            es obligatorio que este esta linea "import io",
+            IMPORTANTE EL MANEJO DE DATOS SE HARA CON la biblioteca pandas
+            IMPORTANTE PARA TRABAJAR CON ARCHIVOS EXCEL USARAS la biblioteca openpyxl,
+
+            IMPORTANTE VERIFICAR QUE BIBLIOTECAS  NECESARIAS E IMPORTAR LAS BIBLIOTECAS NECESARIAS PARA QUE EL CODIGO SEA UTIL,
+            
+            usar loc para agregar nuevo registro en el caso que se use pandas,
+            para usar crear formulario tener en cuenta la siguiente explicacion:
+
+            "Create a form that batches elements together with a "Submit" button.
+
+            A form is a container that visually groups other elements and widgets together, and contains a Submit button. When the form's Submit button is pressed, all widget values inside the form will be sent to Streamlit in a batch.
+
+            To add elements to a form object, you can use "with" notation (preferred) or just call methods directly on the form. See examples below.
+
+            Forms have a few constraints:
+
+            Every form must contain a st.form_submit_button.
+            st.button and st.download_button cannot be added to a form.
+            Forms can appear anywhere in your app (sidebar, columns, etc), but they cannot be embedded inside other forms."
+
+            IMPORTANTE LOS DATOS que se carguen , GUARDARLOS EN DICCIONARIOS USANDO session_state
+            IMPORTANTE RECUERDA LO SIGUIENTE TAMBIEN "Para guardar un DataFrame de pandas en un archivo de Excel, puedes usar el método to_excel() de pandas."
+            IMPORTANTE: IMPORTAR LAS LIBRERIAS NECESARIAS PARA QUE EL CODIGO SE UTIL, CONTROLAR ANTES DE GENERAR EL CODIGO
+            escribir codigo de la siguiente pregunta, las etiquetas de formulario deben estar en español:
+
+           
+            """
+    prompt_text = consulta + prompt_text        
     if st.button("Generar"):
         with st.spinner('Procesando Solicitud, Tardará Unos Segundos...'):
             if len(prompt_text.strip()) == 0:
                 st.warning("El campo de solicitud está vacío. Por favor, pregunte nuevamente.")
             else:
                 response = prompt_bard(prompt_text)
+                st.write(response)
                 session_state.codigo = extract_python_code(response)
-    
+                st.write(session_state.codigo)
     exec(session_state.codigo, globals())
 
 if __name__ == "__main__":

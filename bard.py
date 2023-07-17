@@ -179,10 +179,7 @@ final = """ generar el codigo en uns solo archivo, y controlar la sintaxis antes
 
 
 def main():
-    show_pages([
-        Page("bard.py", "Inicio"),
-        Page("ejectuarcodigo.py", "Soluciones Creadas", ":notebook:"),
-    ])
+    
     st.title("Generador de Soluciones")
     if "codigo" not in st.session_state:
         st.session_state.codigo = ""
