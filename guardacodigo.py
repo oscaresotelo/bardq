@@ -60,23 +60,25 @@ session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
 bard = Bard(timeout=30, session=session)
 
 # Función para traducir texto al inglés
-def translate_to_english(text):
-    blob = TextBlob(text)
-    return str(blob.translate(from_lang="es", to='en'))
+# def translate_to_english(text):
+#     blob = TextBlob(text)
+#     return str(blob.translate(from_lang="es", to='en'))
 
-# Función para traducir texto al español
-def translate_to_spanish(text):
-    blob = TextBlob(text)
-    return str(blob.translate(from_lang="en", to='es'))
+# # Función para traducir texto al español
+# def translate_to_spanish(text):
+#     blob = TextBlob(text)
+#     return str(blob.translate(from_lang="en", to='es'))
 
 # Función para obtener la respuesta de Bard
 def prompt_bard(prompt):
-    prompt_english = translate_to_english(prompt)
+
+    # prompt_english = translate_to_english(prompt)
     response = bard.get_answer(prompt)['content']
-    st.write(response)
+    return(response)
 
 # Función para extraer el código Python de un texto
 def extract_python_code(text):
+   
     if "```python" in text:
         pattern = r"```python(.*?)```"
     else:
@@ -140,7 +142,7 @@ def main():
             IMPORTANTE LOS DATOS que se carguen , GUARDARLOS EN DICCIONARIOS USANDO session_state
             IMPORTANTE RECUERDA LO SIGUIENTE TAMBIEN "Para guardar un DataFrame de pandas en un archivo de Excel, puedes usar el método to_excel() de pandas."
             IMPORTANTE: IMPORTAR LAS LIBRERIAS NECESARIAS PARA QUE EL CODIGO SE UTIL, CONTROLAR ANTES DE GENERAR EL CODIGO
-            escribir codigo de la siguiente pregunta, las etiquetas de formulario deben estar en español:
+            escribir codigo de la siguiente pregunta:
 
            
             """
@@ -151,9 +153,10 @@ def main():
                 st.warning("El campo de solicitud está vacío. Por favor, pregunte nuevamente.")
             else:
                 response = prompt_bard(prompt_text)
-                st.write(response)
+                
+               
                 session_state.codigo = extract_python_code(response)
-                st.write(session_state.codigo)
+                
     exec(session_state.codigo, globals())
 
 if __name__ == "__main__":
