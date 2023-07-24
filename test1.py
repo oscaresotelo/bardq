@@ -15,7 +15,7 @@ session.headers = {
             "Referer": "https://bard.google.com/",
         }
 session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
-question = "who is obama?"
+question = "mostrar el texto de la siguiente pagina http://servicios.infoleg.gob.ar/infolegInternet/anexos/235000-239999/235975/texact.htm"
 
 bard = Bard(timeout=30, session=session)  # Set timeout in seconds
 result = bard.get_answer(question)['content']

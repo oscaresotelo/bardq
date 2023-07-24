@@ -92,6 +92,7 @@ def extract_python_code(text):
 show_pages([
         Page("guardacodigo.py", "Inicio", "🏠"),
         Page("ejectuarcodigo.py", "Soluciones Creadas", ":notebook:"),
+        Page("subirimagen.py", "Tarea Colegio", ":notebook:"),
     ])
 # Interfaz principal de Streamlit
 def main():
