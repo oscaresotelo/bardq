@@ -3,12 +3,12 @@ from bardapi import Bard
 import streamlit as st
 from gtts import gTTS
 import tempfile
-import os 
+import os
 token = 'YwhlcoKaK4On2dndWfbCoX9MifhxeC_5mVs6d6WAHBlGs3J88otYTjI0NKeHYH4R90VSrQ.'
 bard = Bard(token=token)
 
 def text_to_speech(text):
-	st.write(text)
+	
 	tts = gTTS(text=text, lang="es", tld='us')
 	temp_file = tempfile.NamedTemporaryFile(delete=False)
 	temp_file.close()
