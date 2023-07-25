@@ -45,6 +45,9 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+st.markdown("<h1 style='color: gray; font-size: 60px;text-align: center;'>Ai-Cito</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='color: gray; font-size: 35px;text-align: center;'>Generador de Soluciones Administrativas</h1>", unsafe_allow_html=True)
+
 # Configuración de la API de Bard
 os.environ['_BARD_API_KEY'] = "YwhlcoKaK4On2dndWfbCoX9MifhxeC_5mVs6d6WAHBlGs3J88otYTjI0NKeHYH4R90VSrQ."
 session = requests.Session()
@@ -93,10 +96,11 @@ show_pages([
         Page("guardacodigo.py", "Inicio", "🏠"),
         Page("ejectuarcodigo.py", "Soluciones Creadas", ":notebook:"),
         Page("subirimagen.py", "Tarea Colegio", ":notebook:"),
+        Page("imagenapp.py", "Respuestas Rapidas", ":notebook:"),
     ])
 # Interfaz principal de Streamlit
 def main():
-    st.title("Generador de Soluciones Administrativas")
+    
     st.sidebar.title("Guardar Aplicacion")
     # Obtener el estado de la sesión
     session_state = get_session_state()
