@@ -30,7 +30,6 @@ google-cloud-core
 google-cloud-translate
 googleapis-common-protos
 GoogleBard==0.0.7
-googletrans==3.0.0
 grpcio==1.56.0
 grpcio-status==1.48.2
 gspread
@@ -40,7 +39,6 @@ hpack==3.0.0
 hstspreload==2023.1.1
 httpcore==0.17.2
 httplib2==0.22.0
-httpx==0.24.1
 hyperframe==5.2.0
 idna==2.10
 importlib-metadata==6.6.0
