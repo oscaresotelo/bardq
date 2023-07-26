@@ -81,7 +81,7 @@ def ask_about_image(image_data):
 # Function to extract text from the image
 @st.cache_data
 def extract_text_from_image(image_data):
-    return bard.ask_about_image("extract only text, respecting the format, all the text must be in spanish", image_data)['content']
+    return bard.ask_about_image("extract only text, respecting the format, answer in  spanish", image_data)['content']
 
 # Main app
 opcion = st.radio("Selecciona una opción:", ("Resolver Cuestionario", "Generar Resumen"))
