@@ -56,6 +56,7 @@ def get_value_from_google_sheet(link):
     return value
 
 LOGO_IMAGE = "./imagenes/libros.jpg"
+LOGO_IMAGE2 = "./imagenes/nino.jpg"
 
 st.markdown(
     """
@@ -63,11 +64,15 @@ st.markdown(
         .container {
         display: flex;
     }
+    .logo-img {
+        max-width: 200px; /* Adjust the width to your desired value */
+        max-height: 100px; /* Adjust the height to your desired value */
+    }
     .logo-text {
         font-weight: 700 !important;
-        font-size: 80px !important;
+        font-size: 30px !important;
         color: gray !important;
-        padding-top: 100px !important;
+        padding-top: 10px !important;
     }
     
         div[data-testid="stToolbar"] {
@@ -108,7 +113,7 @@ st.markdown(
         button.step-down {display: none;}
         div[data-baseweb] {border-radius: 4px;}
         .container {
-            max-width: 800px;
+            max-width: 400px;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -203,11 +208,17 @@ st.markdown(
     <div class="container">
         <img class="logo-img" src="data:image/png;base64,{base64.b64encode(open(LOGO_IMAGE, "rb").read()).decode()}">
         <p class="logo-text">Ai-Cito</p>
+        <img class="logo-img" src="data:image/png;base64,{base64.b64encode(open(LOGO_IMAGE2, "rb").read()).decode()}">
     </div>
     """,
     unsafe_allow_html=True
 )
-
+expander = st.expander("Instrucciones:")
+expander.write(""" Debe subir una imagen, al hacerlo se visualizara la misma en el panel derecho,
+  el texto extraido de la misma se reflejara en pantalla , editar el texto de la misma para obtener un resultado
+  satisfactorio, en la parte superior del texto debe escribir las instrucciones de lo que desea realizar, por ejemplo
+  resumir el siguiente texto, resolver las siguientes operaciones, contestar el siguiente cuestionario, etc.
+  Presionar el boton  'Procesar respuesta' para obtener lo solicitado """)
 def main():
     
     
