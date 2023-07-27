@@ -43,6 +43,7 @@ def upload_image_to_cloudinary(image):
     except Exception as e:
         st.error(f"Error al cargar la imagen en Cloudinary: {str(e)}")
         return None
+
 @st.cache_data
 def get_value_from_google_sheet(link):
     scope = ['https://spreadsheets.google.com/feeds',
@@ -220,23 +221,12 @@ expander.write(""" Debe subir una imagen, al hacerlo se visualizara la misma en 
   satisfactorio, en la parte superior del texto debe escribir las instrucciones de lo que desea realizar, por ejemplo
   resumir el siguiente texto, resolver las siguientes operaciones, contestar el siguiente cuestionario, etc.
   Presionar el boton  'Procesar respuesta' para obtener lo solicitado """)
-def main():
-    
-    
-    if "textoext" not in st.session_state:
-      st.session_state.textoext = ""
-    uploaded_image = st.file_uploader("Selecciona una imagen", type=["jpg", "jpeg", "png"])
 
-    if uploaded_image is not None:
-        st.sidebar.image(uploaded_image, caption="Imagen subida", use_column_width=True)
-        with st.spinner("Procesando......"):
-            url = upload_image_to_cloudinary(uploaded_image)
-            if url:
-                # st.success("¡Imagen cargada correctamente")
-                # st.image(url, caption="Imagen en Cloudinary", use_column_width=True)
 
-                # Guardar la URL en la hoja de Google Sheets
-                data = {
+@st.cache_data
+def sheets(url):
+
+  data = {
                     'func': 'Create',
                     'usuario': 'NombreUsuario',  # Reemplaza esto por el nombre del usuario
                     'comercio': 'NombreComercio',  # Reemplaza esto por el nombre del comercio
@@ -244,36 +234,44 @@ def main():
                     'fecha': 'FechaActual',  # Reemplaza esto por la fecha actual (por ejemplo, "2023-07-24")
                     'link': url,
                     'observacion': 'Observacion'  # Reemplaza esto con una observación opcional
-                }
+              }
 
-                response = requests.post(GOOGLE_SCRIPT_URL, data=data)
-                # if response.status_code == 200:
-                #     st.success("Cargada Correctamente.")
-
-                # else:
-                #     st.error("Error al leer imagen")
-                    
-                # Obtener el valor de la columna "g" de la hoja de Google Sheets
-                value_from_sheet = get_value_from_google_sheet(url)
-                st.session_state.textoext = value_from_sheet
-                # st.text_area("Texto Extraido" ,value_from_sheet, height= 400)
-
-            else:
+  response = requests.post(GOOGLE_SCRIPT_URL, data=data)
+               
+  
+  return response 
     
-                st.error("Error al cargar la imagen ")
-    texto_extraido = st.text_area("Texto Extraido", st.session_state.textoext, height = 400)
-     
-    # if boton_ask:
-    #   pregunta = texto_extraido
-    #   bard = Bard(timeout=30, session=session)  # Set timeout in seconds
-    #   result = bard.get_answer(pregunta)['content']
-    #   st.write(result)        
+if "textoext" not in st.session_state:
+    st.session_state.textoext = ""
 
-if __name__ == "__main__":
-    main()
-boton_ask= st.button("Procesar Respuesta")
-if boton_ask:
-      # pregunta = texto_extraido
-      bard = Bard(timeout=30, session=session)  # Set timeout in seconds
-      result = bard.get_answer(st.session_state.textoext)['content']
-      st.write(result)   
+uploaded_image = st.file_uploader("Selecciona una imagen", type=["jpg", "jpeg", "png"])
+
+if uploaded_image is not None:
+  st.sidebar.image(uploaded_image, caption="Imagen subida", use_column_width=True)
+  with st.spinner("Procesando......"):
+    url = upload_image_to_cloudinary(uploaded_image)
+    if url:
+      sheets(url)
+      
+               
+      value_from_sheet = get_value_from_google_sheet(url)
+      st.session_state.textoext = value_from_sheet
+                
+
+
+if "boton_ask" not in st.session_state:
+    st.session_state.boton_ask = False
+
+text_area_textoext = st.text_area("Texto Extraido", st.session_state.textoext, height=400)
+
+# Check if the button is clicked
+if st.button("Procesar Respuesta"):
+    # Set the flag to True when the button is clicked
+    st.session_state.boton_ask = True
+
+if st.session_state.boton_ask:
+  with st.spinner("Procesando....."):
+  # Execute the following code only when the button is clicked
+    bard = Bard(timeout=30, session=session)  # Set timeout in seconds
+    result = bard.get_answer(st.session_state.textoext)['content']
+    st.write(result)
