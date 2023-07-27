@@ -35,6 +35,7 @@ cloudinary.config(
 GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwn-KjyS7S_bFAdbujXOmwebd8vdA1vXO539Ijr_RiC22gfVMDPkMYLcByjWrN1xXg/exec'
 GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1Fa-B9CWSDsctbWFjcidB5GqY_3uk8ME5dxoaPBU0lbA/edit#gid=0'
 
+@st.cache_data
 def upload_image_to_cloudinary(image):
     try:
         response = cloudinary.uploader.upload(image)
@@ -42,7 +43,7 @@ def upload_image_to_cloudinary(image):
     except Exception as e:
         st.error(f"Error al cargar la imagen en Cloudinary: {str(e)}")
         return None
-
+@st.cache_data
 def get_value_from_google_sheet(link):
     scope = ['https://spreadsheets.google.com/feeds',
              'https://www.googleapis.com/auth/drive']
@@ -261,12 +262,18 @@ def main():
     
                 st.error("Error al cargar la imagen ")
     texto_extraido = st.text_area("Texto Extraido", st.session_state.textoext, height = 400)
-    boton_ask= st.button("Procesar Respuesta") 
-    if boton_ask:
-      pregunta = texto_extraido
-      bard = Bard(timeout=30, session=session)  # Set timeout in seconds
-      result = bard.get_answer(pregunta)['content']
-      st.write(result)        
+     
+    # if boton_ask:
+    #   pregunta = texto_extraido
+    #   bard = Bard(timeout=30, session=session)  # Set timeout in seconds
+    #   result = bard.get_answer(pregunta)['content']
+    #   st.write(result)        
 
 if __name__ == "__main__":
     main()
+boton_ask= st.button("Procesar Respuesta")
+if boton_ask:
+      # pregunta = texto_extraido
+      bard = Bard(timeout=30, session=session)  # Set timeout in seconds
+      result = bard.get_answer(st.session_state.textoext)['content']
+      st.write(result)   

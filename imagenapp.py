@@ -198,7 +198,7 @@ def text_to_speech(text):
 # Function to ask questions about the image
 @st.cache_data
 def ask_about_image(image_data):
-    return bard.ask_about_image("answers the question or problems in the image,you migth speak in spanish", image_data)['content']
+    return bard.ask_about_image("answers the question or problems in the image,you migth speak in spanish, unless the text is in english", image_data)['content']
 
 # Function to extract text from the image
 @st.cache_data
