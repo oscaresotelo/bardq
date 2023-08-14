@@ -8,7 +8,7 @@ import re
 import base64
 
 # Initialize Bard and Streamlit app
-token = 'ZQhlchn_uUBoRxKJBFeft1KPTy312zCh1V4TI5jEq0Gk3lTO1Z0SRNBKTLspZUhE69r1dA.'
+token = 'ZwhlcpEl1aCU7ftwDxiilDY9YU3-1n6xAagHdotas_ZjWW5r70vhRGzE7GidCtkMrMZtDQ.'
 bard = Bard(token=token)
 
 
