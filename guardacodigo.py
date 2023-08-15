@@ -49,7 +49,7 @@ st.markdown("<h1 style='color: gray; font-size: 60px;text-align: center;'>Ai-Cit
 st.markdown("<h1 style='color: gray; font-size: 35px;text-align: center;'>Generador de Soluciones Administrativas</h1>", unsafe_allow_html=True)
 
 # Configuración de la API de Bard
-os.environ['_BARD_API_KEY'] = "ZwhlcqfjRVt_OOxYzM44MzKoEnCfyWnmfpPOe286oKHbCaVYfC05tOvBAJc71LJreIfWlA."
+os.environ['_BARD_API_KEY'] = "Zwhlcok8by9lml4fRGCKLtbKtBXOFFn_MG-l0cFwM_wYGHjtVDunJ36Qroj1dpJ3Ggn8tw."
 session = requests.Session()
 session.headers = {
             "Host": "bard.google.com",
