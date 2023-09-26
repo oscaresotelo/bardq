@@ -2,7 +2,7 @@ from bardapi import Bard
 import os
 
 
-os.environ['_BARD_API_KEY'] = "ZQhlchn_uUBoRxKJBFeft1KPTy312zCh1V4TI5jEq0Gk3lTO1Z0SRNBKTLspZUhE69r1dA."
+os.environ['_BARD_API_KEY'] = "awhlcqUB-BzFJrSuhTJw7teBxj0J21mqlVL8KGVEDCecyXHJCXGjLtnyBJaUlBSdvAzY6w."
 
 
 print(Bard().get_answer("import streamlit as st, crear formulario para dar de alta empleados")['content'])
