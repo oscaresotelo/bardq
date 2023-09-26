@@ -133,7 +133,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-os.environ['_BARD_API_KEY'] = "ZwhlcpEl1aCU7ftwDxiilDY9YU3-1n6xAagHdotas_ZjWW5r70vhRGzE7GidCtkMrMZtDQ."
+os.environ['_BARD_API_KEY'] = "awhlcqUB-BzFJrSuhTJw7teBxj0J21mqlVL8KGVEDCecyXHJCXGjLtnyBJaUlBSdvAzY6w."
 
 
 session = requests.Session()
