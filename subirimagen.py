@@ -9,7 +9,7 @@ from bardapi import Bard
 import os 
 import base64
 
-os.environ['_BARD_API_KEY'] = "awhlcqUB-BzFJrSuhTJw7teBxj0J21mqlVL8KGVEDCecyXHJCXGjLtnyBJaUlBSdvAzY6w."
+os.environ['_BARD_API_KEY'] = "bQhlci0rLaMpBZ11O9QR6cTR4EiWGwD-u_GM2JLrUrOoBp_vDGzTeZmN__uze22JGjDenw."
 
 
 session = requests.Session()
